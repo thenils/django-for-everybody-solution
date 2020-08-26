@@ -51,6 +51,8 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'django_extensions',
+    'social_django',
+    
 
 
 ]
@@ -136,3 +138,28 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
+
+
+try:
+    from . import github_settings
+    SOCIAL_AUTH_GITHUB_KEY = github_settings.SOCIAL_AUTH_GITHUB_KEY
+    SOCIAL_AUTH_GITHUB_SECRET = github_settings.SOCIAL_AUTH_GITHUB_SECRET
+except:
+    print('When you want to use social login, please see mysite/github_settings_dict.py')
+
+    AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    # 'social_core.backends.twitter.TwitterOAuth',
+    # 'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'

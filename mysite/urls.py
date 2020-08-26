@@ -15,6 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+import os
+from django.views.static import serve
+from django.conf import settings    
+from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +28,35 @@ urlpatterns = [
     path('autos/', include('autos.urls')),
     path('cats/', include('cats.urls')),
     path('ads/', include('ads.urls')),
+
+    path('accounts/', include('django.contrib.auth.urls')),  # Keep
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
     
 ]
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+urlpatterns += [
+    url(r'^site/(?P<path>.*)$', serve,
+        {'document_root': os.path.join(BASE_DIR, 'site'),
+           'show_indexes': True},
+        name='site_path'
+    ),
+]
+
+urlpatterns += [
+    path('favicon.ico', serve, {
+            'path': 'favicon.ico',
+            'document_root': os.path.join(BASE_DIR, 'home/static'),
+        }
+    ),
+]
+
+try:
+    from . import github_settings
+    social_login = 'registration/login_social.html'
+    urlpatterns.insert(0,
+        path('accounts/login/', auth_views.LoginView.as_view(template_name=social_login))
+    )
+    print('Using',social_login,'as the login template')
+except:
+    print('Using registration/login.html as the login template')

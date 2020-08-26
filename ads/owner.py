@@ -59,4 +59,3 @@ class OwnerDeleteView(LoginRequiredMixin, DeleteView):
 # https://stackoverflow.com/a/15540149
 
 # https://stackoverflow.com/questions/5531258/example-of-django-class-based-deleteview
-

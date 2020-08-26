@@ -1,6 +1,7 @@
 {% extends 'base_bootstrap.html' %}
 {% load app_tags %} <!-- see home/templatetags/app_tags.py and dj4e-samples/settings.py -->
 {% block navbar %}
+
 <!-- https://www.w3schools.com/bootstrap/bootstrap_navbar.asp -->
 <nav class="navbar navbar-default navbar-inverse">
   <div class="container-fluid">
@@ -27,9 +28,9 @@
         </ul>
        </li>
 
-       {% url 'ads:ad_create' as xyz %}
-      <li {% if request.get_full_path == xyz %}class="active"{% endif %}>
-          <a href="{% url 'ads:ad_create' %}">Create Ad</a></li>
+       
+      
+          
 
 
        {% if user.is_authenticated %}
@@ -48,4 +49,7 @@
     </ul>
   </div>
 </nav>
+
 {% endblock %}
+
+
